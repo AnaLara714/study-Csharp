@@ -7,65 +7,25 @@ using System.Text; // trabalha com texto e codificações
 using System.Threading.Tasks; // construir aplicativos multithreading 
 
 
-namespace Inheritance
+namespace Polymorphism
 {
-    class Vehicle
+    // Classe abstrata que serve como modelo para outras formas
+    public abstract class Shape
     {
-        public string name {  get; set; }
-        public string brand { get; set; }
-
-        public void move()
+        // Método virtual que pode ser sobrescrito nas subclasses
+        public virtual void Draw()
         {
-            Console.WriteLine("vehicle in motion.");
-        }
-
-        public void stop()
-        {
-            Console.WriteLine("vehicle in stationary state.");
+            // Implementação padrão 
         }
     }
 
-    class Car:Vehicle { 
-        public double speed { get; set; }
-        public double distance { get; set; }
-        public double Time { get; set; }
-
-        public void calculateSpeed()
-        {
-            Console.WriteLine("The formular to calculate speed is distance/Time");
-        }
-    }
-
-    class Engine
+    // Classe Circle herda de Shape
+    public class Circle : Shape
     {
-        public void start ()
+        // Sobrescreve o método Draw da classe base com novo comportamento
+        public override void Draw()
         {
-            Console.WriteLine("Engine Started:");
-        }
-        public void stop() {
-            Console.WriteLine("Engine stopped:");
-        }
-    }
-
-    class Maruti:Car
-    {
-        // maruti extends Car and thus inherits all methods form Car(except final and static
-        // maruti can also define all its specific functionality
-        public void MarutiStartDemo()
-        {
-            Engine MarutiEngine = new Engine();
-            MarutiEngine.start();
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var car = new Car();
-            car.name = "Toyota";
-            car.move();
-      
+            // Nova implementação específica para círculo
         }
     }
 }
