@@ -7,63 +7,65 @@ using System.Text; // trabalha com texto e codificações
 using System.Threading.Tasks; // construir aplicativos multithreading 
 
 
-namespace CSharpFundamentals
+namespace Inheritance
 {
+    class Vehicle
+    {
+        public string name {  get; set; }
+        public string brand { get; set; }
+
+        public void move()
+        {
+            Console.WriteLine("vehicle in motion.");
+        }
+
+        public void stop()
+        {
+            Console.WriteLine("vehicle in stationary state.");
+        }
+    }
+
+    class Car:Vehicle { 
+        public double speed { get; set; }
+        public double distance { get; set; }
+        public double Time { get; set; }
+
+        public void calculateSpeed()
+        {
+            Console.WriteLine("The formular to calculate speed is distance/Time");
+        }
+    }
+
+    class Engine
+    {
+        public void start ()
+        {
+            Console.WriteLine("Engine Started:");
+        }
+        public void stop() {
+            Console.WriteLine("Engine stopped:");
+        }
+    }
+
+    class Maruti:Car
+    {
+        // maruti extends Car and thus inherits all methods form Car(except final and static
+        // maruti can also define all its specific functionality
+        public void MarutiStartDemo()
+        {
+            Engine MarutiEngine = new Engine();
+            MarutiEngine.start();
+        }
+    }
+
     class Program
     {
-        //public class Person1
-        //{
-        //  public string FirstName;
-        //  public string LastName;
-
-        //  public void Introduce()
-        //  {
-        //      Console.WriteLine("My name is " + FirstName + " " + LastName);
-        //  }
-        //}
-
-        //public class Person2 
-        //{ 
-        //  public string Name;
-        //  public void Introduce(string to) 
-        //  {
-        //      Console.WriteLine("Hi {0}, I am {1}", to, Name);
-        //  }
-        //}
-
-        public class Point
+        static void Main(string[] args)
         {
-            public int X;
-            public int Y;
-            public Point(int x, int y) {
-                this.X = x;
-                this.Y = y;
-            }
-            public void Move(int x, int y) {
-                this.X = x;
-                this.Y = y;
-            }
-
-            public void Move(Point newLocation)
-            {
-                if (newLocation == null) 
-                    throw new ArgumentNullException("newLocation");
-                Move(newLocation.X, newLocation.Y);
-            }
-
-
-      static void Main(string[] args)
-      {
-         //var john = new Person1();
-         // john.FirstName = "joao";
-         // john.LastName = "mesquita";
-         // john.Introduce();
-
-         //var person = new Person2();
-         //   person.Name = "ana";
-         //   person.Introduce("Dennis");
-
-
-      }
+            var car = new Car();
+            car.name = "Toyota";
+            car.move();
+      
+        }
     }
 }
