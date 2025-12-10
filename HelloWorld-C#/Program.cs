@@ -3,59 +3,36 @@
 using System; // // abriga todas essas classes de utilitários básicos e classes de tipos primitivos;
 using System.Collections.Generic; // trabalha com coleções de lista 
 using System.Linq; // trabalha com dados e realiza consultas nativas
+using System.Runtime.Intrinsics.X86;
 using System.Text; // trabalha com texto e codificações 
 using System.Threading.Tasks; // construir aplicativos multithreading 
-
-namespace Extensibility
+namespace Generics
 {
-    // Interface que define um contrato de logger.
-    // Qualquer classe que implementar ILogger deve ter LogError e LogInfo.
-    public interface ILogger
+    // Classe genérica: T é um "tipo genérico" que será definido quando instanciado.
+    /* T é um parâmetro de tipo, que só é definido quando você cria o objeto.
+    permitem criar uma única classe que funciona para qualquer tipo, sem duplicar código. */
+    public class GenericList<T>
     {
-        void LogError(string message);
-        void LogInfo(string message);
-    }
+        // Método que recebe um valor do tipo T.
+        public void Add(T value) { }
 
-    // Implementação de ILogger que escreve mensagens no console.
-    public class ConsoleLogger : ILogger
-    {
-        // Escreve mensagem de erro em vermelho.
-        public void LogError(string message)
+        // Indexador que retorna um item do tipo T pelo índice.
+        public T this[int index]
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(message);
-        }
-
-        // Escreve mensagem informativa em verde.
-        public void LogInfo(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(message);
+            get { throw new NotImplementedException(); }
         }
     }
 
-    // Classe responsável por migrar o banco.
-    // Ela recebe um ILogger por injeção de dependência.
-    public class DbMigrator
+    // Classe Book normal (sem generics).
+    public class Book
     {
-        // Referência ao logger que será usado pela classe.
-        private readonly ILogger _logger;
-
-        // Construtor recebe qualquer implementação de ILogger.
-        public DbMigrator(ILogger logger)
+        public void Add(Book book)
         {
-            _logger = logger;
+            throw new NotImplementedException();
         }
-
-        // Executa o processo de migração e registra mensagens antes e depois.
-        public void Migrate()
+        public Book this[int index]
         {
-            _logger.LogInfo("Migrationg started at " + DateTime.Now);
-
-            // Registro de detalhes da migração do banco.
-            // (Aqui ficaria o código real da migração.)
-
-            _logger.LogInfo("Migrationg finished at " + DateTime.Now);
+            get { throw new NotImplementedException(); }
         }
     }
 
@@ -63,11 +40,14 @@ namespace Extensibility
     {
         static void Main(string[] args)
         {
-            // Cria um migrador usando ConsoleLogger para registrar mensagens.
-            var dbMigrator = new DbMigrator(new ConsoleLogger());
+            // Cria uma lista genérica de inteiros.
+            var numbers = new GenericList<int>();
+            numbers.Add(10);  // Add recebe int, pois T = int.
 
-            // Inicia o processo de migração.
-            dbMigrator.Migrate();
+            // Cria uma lista genérica de Books.
+            var book = new GenericList<Book>();
+            book.Add(new Book()); // Add recebe Book, pois T = Book.
         }
     }
 }
+
