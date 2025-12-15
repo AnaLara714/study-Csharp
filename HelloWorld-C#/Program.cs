@@ -8,24 +8,41 @@ using System.Runtime.Intrinsics.X86;
 using System.Text; // trabalha com texto e codificações 
 using System.Threading.Tasks; // construir aplicativos multithreading 
 
-namespace NullableTypes
+namespace ExecptionHandling
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // DateTime? é um tipo anulável (Nullable<DateTime>)
-            // Ele pode armazenar um valor DateTime OU null
-            DateTime? date = new DateTime(2025, 12, 12);
+            // Declara o StreamReader fora do try
+            // para que ele possa ser acessado no finally
+            StreamReader streamReader = null;
 
-            // Se 'date' tiver valor, ele é usado.
-            // Se 'date' for null, usa DateTime.Today como valor padrão.
-            DateTime date2 = date ?? DateTime.Today;
+            try
+            {
+                // Tenta abrir o arquivo no caminho informado
+                streamReader = new StreamReader(@"c:\file.zip");
 
-            Console.WriteLine(date2);
+                // Lê todo o conteúdo do arquivo
+                var content = streamReader.ReadToEnd();
+
+                // Lança manualmente uma exceção (apenas para exemplo)
+                throw new Exception("Oops");
+            }
+            catch (Exception ex)
+            {
+                // Captura qualquer exceção ocorrida no bloco try
+                // Evita que a aplicação quebre
+                Console.WriteLine("Sorry, an unexpected error occurred.");
+            }
+            finally
+            {
+                // Sempre é executado, ocorrendo exceção ou não
+                // Garante que o recurso seja liberado
+                if (streamReader != null)
+                    streamReader.Dispose();
+            }
         }
     }
 }
-
-
 
